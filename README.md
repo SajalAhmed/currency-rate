@@ -17,3 +17,6 @@
 #run     
 
 ```
+Datatable
+
+<img src="https://github.com/SajalAhmed/django_code_test/blob/main/media/localhost_8000_.png" />
