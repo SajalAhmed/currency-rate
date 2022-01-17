@@ -11,7 +11,8 @@
 #installation guideline
     - create a virtual environment
     - install requiremnt.txt
-    - update db settings
+    - update DB settings
+    - makemigrations and migrate
 
 
 #run     
