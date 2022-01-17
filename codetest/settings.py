@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CRONJOBS = [
-    ('* * * * *', 'codetest.currency.cron.cron_job')
+    ('0 */12 * * *', 'codetest.currency.cron.cron_job')
 ]
 
 

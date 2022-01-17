@@ -1,1 +1,113 @@
-<h1>Hello, world</h1>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="py-5">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="float-left">
+                    <div class="input-group">
+                        <select id="limit" class="form-control" >
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="float-right">
+                        <div class="input-group">
+                            <select name="date" class="form-control">
+                                {% for conv in converts %}
+                                <option value="{{ conv.id }}">{{ conv.date }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="float-right">
+                        <div class="input-group">
+                            <input type="text" name="search" placeholder="Search" id="search_key" class="form-control">
+                            <div class="input-group-btn">
+                                <button class="btn btn-info" type="submit">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover table-striped table-bordered text-center" id="leaderTable">
+                    <thead>
+                        <tr>
+                            <th>#SL</th>
+                            <th>Name</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $("#leaderTable").on("click",'.pagination li a',function () {
+        var page_url=$(this).attr("href");
+        if(page_url=="javascript:void(0)"){
+            return false;
+        }
+        get_view(page_url);
+        return false;
+    });
+    $("#search_key").on("change",function () {
+        get_view(false);
+        return false;
+    });
+    $("#limit").on("change",function () {
+        get_view(false);
+        return false;
+    });
+
+    get_view(false);
+
+    function get_view(page_url){
+        var limit=$("#limit").val();
+        var search_key=$("#search_key").val();
+        var base_url="{% url 'currency:currency_table' %}";
+        if(page_url){
+            base_url = base_url + page_url;
+        }
+        $.ajax({
+            url:base_url,
+            type:"get",
+            data:{
+                "limit": limit,
+                "search": search_key
+            },
+            success:function(data){
+                $("#leaderTable tbody").html(data);
+            },
+            error:function (e) {
+                alert("error")
+            }
+        });
+    }
+</script>
+
+{% endblock %}
